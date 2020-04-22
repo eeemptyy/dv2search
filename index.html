@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>HTML Basic</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@inkline/inkline/dist/inkline.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/minisearch@2.2.2/dist/umd/index.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@inkline/inkline/dist/inkline.js"></script>
+</head>
+<body>
+  <div id="app" class="_background-dark">
+    <i-container>
+      <i-row>
+        <i-column>
+          <div class="_sticky-top _background-white">
+            <h1>Welcome to The Division 2 item library!</h1>
+            <p>Division 2 item list TU9 updated.</p>
+            <i-radio-button-group v-model="group">
+              <i-radio-button value="gear">gear <small>({{searchEngineConfig.gear.total_result}})</small></i-radio-button>
+              <i-radio-button value="weapon">weapon <small>({{searchEngineConfig.weapon.total_result}})</small></i-radio-button>
+              <i-radio-button value="talent" disabled>talent</i-radio-button>
+              <i-radio-button value="mod" disabled>mod</i-radio-button>
+            </i-radio-button-group>
+            <i-input v-model="search" placeholder="Type item name or Core attributes" clearable />
+          </div>
+          <div v-if="group === 'gear'">
+            <i-list-group class="_background-gray-70">
+              <i-list-group-item v-for="item in results" :key="item.id">
+                <h4>{{item["Set Name"]}} <small>{{item['Core']}}</small></h4>
+                <p>{{item["Set Bonus (1)"]}}</p>
+                <p>{{item["Set Bonus (2)"]}}</p>
+                <p>{{item["Set Bonus (3)"]}}</p>
+                <p>{{item["Set Bonus (4)"]}}</p>
+                <p>{{item["Backpack Talent"]}}</p>
+                <p>{{item["Chest Talent"]}}</p>
+              </i-list-group-item>
+            </i-list-group>
+          </div>
+          
+          <div v-if="group === 'weapon'">
+            <i-list-group class="_background-gray-70">
+              <i-list-group-item v-for="item in results" :key="item.id">
+                <h4>{{item["Name"]}} <small>{{item['Type']}}</small></h4>
+                <p>{{item["Variant"]}}</p>
+                <p>{{item["Talent"]}}</p>
+                <p>{{item["Mods"]}}</p>
+                <p>{{item["Drop Location"]}}</p>
+              </i-list-group-item>
+            </i-list-group>
+          </div>
+
+          <i-button href="https://inkline.io/docs/introduction/getting-started">Read Documentation</i-button>
+        </i-column>
+      </i-row>
+    </i-container>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
