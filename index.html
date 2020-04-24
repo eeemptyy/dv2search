@@ -21,7 +21,7 @@
             <i-radio-button-group v-model="group">
               <i-radio-button value="gear">gear <small>({{searchEngineConfig.gear.total_result}})</small></i-radio-button>
               <i-radio-button value="weapon">weapon <small>({{searchEngineConfig.weapon.total_result}})</small></i-radio-button>
-              <i-radio-button value="talent" disabled>talent</i-radio-button>
+              <i-radio-button value="talent">talent <small>({{searchEngineConfig.talent.total_result}})</small></i-radio-button>
               <i-radio-button value="mod" disabled>mod</i-radio-button>
             </i-radio-button-group>
             <i-input v-model="search" placeholder="Type item name or Core attributes" clearable />
@@ -48,6 +48,16 @@
                 <p>{{item["Talent"]}}</p>
                 <p>{{item["Mods"]}}</p>
                 <p>{{item["Drop Location"]}}</p>
+              </i-list-group-item>
+            </i-list-group>
+          </div>
+
+          <div v-if="group === 'talent'">
+            <i-list-group class="_background-gray-70">
+              <i-list-group-item v-for="item in results" :key="item.id">
+                <h4>{{item["Name"]}} <small>{{item['Type']}}</small></h4>
+                <p>{{item["Slot"]}}</p>
+                <p>{{item["Description"]}}</p>
               </i-list-group-item>
             </i-list-group>
           </div>
