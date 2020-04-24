@@ -35,9 +35,20 @@ new Vue({
         }
       },
       talent: {
-        data_url: '',
+        data_url: 'https://gist.githubusercontent.com/eeemptyy/6a70c5016e6390496b1a6b2efc0d7b5b/raw/e8f2c4aacc17fea6880b99b93ba9be270e713215/talent.json',
         engine: undefined,
-        data: []
+        data: [],
+        config: {
+          fields: ["Name", "Slot", "Description"], // fields to index for full-text search
+          storeFields: ["Name", "Slot", "Description", "Type"], // fields to return with search results
+          searchOptions: {
+            boost: {
+              "Name": 2
+            },
+            fuzzy: 0.2,
+            prefix: true
+          }
+        }
       },
       mod: {
         data_url: '',
@@ -52,22 +63,17 @@ new Vue({
   },
   watch: {
     group: function(value) {
-      console.log(value)
       if (this.searchEngineConfig[this.group].engine == undefined) {
-        console.log('inif')
         this.initialMiniSearch(value);
       }
       this.resetResult();
     },
     search: function (value) {
-      console.log(value)
-      console.log(this.group)
       engine = this.getEngine();
       if (value === "") {
         this.resetResult();
       } else {
         this.results = engine.search(value);
-        console.log(this.results)
       }
     }
   },
@@ -109,6 +115,11 @@ new Vue({
     data_url = this.getGroupUrl('weapon');
     axios(data_url).then((data) => {
       this.searchEngineConfig['weapon'].data = data.data
+    });
+
+    data_url = this.getGroupUrl('talent');
+    axios(data_url).then((data) => {
+      this.searchEngineConfig['talent'].data = data.data
     });
   }
 });
